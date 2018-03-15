@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 from pprint import pprint
 
-#retrieve business IDs
 cities = ["Anaheim", "Santa Ana", "Irvine", "Huntington Beach", "Garden Grove", "Orange", "Fullerton", "Costa Mesa", "Mission Viejo", "Westminster"]
 url = "https://api.yelp.com/v3/businesses/search"
 headers = {'Authorization': 'Bearer %s' %api_key}
@@ -15,12 +14,12 @@ for c in cities: #since the search limit is 50, we set the radius about 3 miles
     responses = requests.get(url,headers = headers, params = params).json()
     for response in responses["businesses"]:
         business_id.append(response["id"])
-
-#search for business hours
+        
 yelp_api = YelpAPI(api_key)
 responses = []
 for b in business_id:
     responses.append(yelp_api.business_query(id = b)) 
+
 dates_time = []
 ratings = []
 for r in responses:
@@ -30,7 +29,6 @@ for r in responses:
     except KeyError: #some stores didn't list out operation hours
         continue
 
-#calculate the total operation hours
 total_hours = []
 for date_time in dates_time:
     total = 0
@@ -47,13 +45,8 @@ for date_time in dates_time:
                 print(date_time[x]["end"])
     total_hours.append(round(total/100)) #sum of operation hours
 
-#another 50 results:
-business_id2 = []
-for c2 in cities:
-    params = {'term':"restaurant" ,"location": c2,"limit": 50,"offset":50,"radius": 5000,}
-    responses = requests.get(url,headers = headers, params = params).json()
-    for response in responses["businesses"]:
-        business_id2.append(response["id"])
+print(len(ratings))
+print(len(total_hours))
 
 business_id2 = []
 for c2 in cities:
@@ -61,8 +54,14 @@ for c2 in cities:
     responses = requests.get(url,headers = headers, params = params).json()
     for response in responses["businesses"]:
         business_id2.append(response["id"])
+
+yelp_api = YelpAPI(api_key)
+responses2 = []
+for b2 in business_id2:
+    responses2.append(yelp_api.business_query(id = b2))
 
 dates_time2 = []
+# ratings2=[]
 for r2 in responses2:
     try:
         dates_time2.append(r2["hours"][0]["open"])
@@ -75,7 +74,7 @@ for date_time2 in dates_time2:
     for x2 in range(len(date_time2)):
         if int(date_time2[x2]["end"]) == 0:
             total += 2400-int(date_time2[x2]["start"])
-        elif int(date_time2[x2]["end"]) < 600:
+        elif int(date_time2[x2]["end"]) < 1000:
 #             print(date_time[x]["day"])
             total += int(date_time2[x2]["end"])+2400 - int(date_time2[x2]["start"])
         else:
@@ -85,5 +84,9 @@ for date_time2 in dates_time2:
                 print(date_time2[x]["end"])
     total_hours.append(round(total/100)) #sum of operation hours
 
-print(ratings)
-print(total_hours)
+print(len(ratings))
+print(len(total_hours))
+
+hours_ratings = pd.DataFrame({"Hours": total_hours,
+                             "Ratings": ratings})
+hours_ratings
