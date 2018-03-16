@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[150]:
+
+
 from config import api_key
 from yelpapi import YelpAPI
 import requests
@@ -5,7 +11,11 @@ import pandas as pd
 import numpy as np
 from pprint import pprint
 
-cities = ["Anaheim", "Santa Ana", "Irvine", "Huntington Beach", "Garden Grove", "Orange", "Fullerton", "Costa Mesa", "Mission Viejo", "Westminster"]
+
+# In[151]:
+
+
+cities = ["Anaheim", "Santa Ana", "Irvine", "Cypress", "Garden Grove", "Orange", "Fullerton", "Costa Mesa", "Tustin", "Westminster"]
 url = "https://api.yelp.com/v3/businesses/search"
 headers = {'Authorization': 'Bearer %s' %api_key}
 business_id = []
@@ -15,10 +25,19 @@ for c in cities: #since the search limit is 50, we set the radius about 3 miles
     for response in responses["businesses"]:
         business_id.append(response["id"])
         
+
+
+# In[152]:
+
+
 yelp_api = YelpAPI(api_key)
 responses = []
 for b in business_id:
-    responses.append(yelp_api.business_query(id = b)) 
+    responses.append(yelp_api.business_query(id = b))   
+
+
+# In[153]:
+
 
 dates_time = []
 ratings = []
@@ -28,6 +47,10 @@ for r in responses:
         ratings.append(r["rating"])
     except KeyError: #some stores didn't list out operation hours
         continue
+
+
+# In[154]:
+
 
 total_hours = []
 for date_time in dates_time:
@@ -44,9 +67,18 @@ for date_time in dates_time:
                 print(total)
                 print(date_time[x]["end"])
     total_hours.append(round(total/100)) #sum of operation hours
+    
+
+
+# In[155]:
+
 
 print(len(ratings))
 print(len(total_hours))
+
+
+# In[156]:
+
 
 business_id2 = []
 for c2 in cities:
@@ -55,10 +87,18 @@ for c2 in cities:
     for response in responses["businesses"]:
         business_id2.append(response["id"])
 
+
+# In[157]:
+
+
 yelp_api = YelpAPI(api_key)
 responses2 = []
 for b2 in business_id2:
-    responses2.append(yelp_api.business_query(id = b2))
+    responses2.append(yelp_api.business_query(id = b2))  
+
+
+# In[158]:
+
 
 dates_time2 = []
 # ratings2=[]
@@ -69,6 +109,17 @@ for r2 in responses2:
     except KeyError: #some stores didn't list out operation hours
         continue
 
+
+# In[ ]:
+
+
+pprint(dates_time2)
+
+
+# In[159]:
+
+
+# total_hours2=[]
 for date_time2 in dates_time2:
     total = 0
     for x2 in range(len(date_time2)):
@@ -83,10 +134,26 @@ for date_time2 in dates_time2:
                 print(total)
                 print(date_time2[x]["end"])
     total_hours.append(round(total/100)) #sum of operation hours
+    
+
+
+# In[160]:
+
 
 print(len(ratings))
 print(len(total_hours))
 
+
+# In[161]:
+
+
 hours_ratings = pd.DataFrame({"Hours": total_hours,
                              "Ratings": ratings})
 hours_ratings
+
+
+# In[ ]:
+
+
+
+
