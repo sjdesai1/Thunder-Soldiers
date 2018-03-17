@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 
 from config import api_key
@@ -13,10 +13,10 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 
 
-# In[99]:
+# In[4]:
 
 
-cities = ["Anaheim,CA", "Santa Ana,CA", "Irvine,CA", "Cypress,CA", "Garden Grove,CA", "Orange,CA", "Fullerton,CA", "Costa Mesa,CA", "Tustin,CA","Westminster,CA"]
+cities = ["Anaheim,CA", "Santa Ana,CA", "Irvine,CA", "Huntington Beach,CA", "Garden Grove,CA", "Orange,CA", "Fullerton,CA", "Costa Mesa,CA", "Mission Viejo,CA","Westminster,CA"]
 url = "https://api.yelp.com/v3/businesses/search"
 headers = {'Authorization': 'Bearer %s' %api_key}
 price_locations = {}
@@ -59,7 +59,7 @@ print(price_locations)
      
 
 
-# In[102]:
+# In[6]:
 
 
 columns = ["Cheap","Affordable","Expensive","Luxury"]

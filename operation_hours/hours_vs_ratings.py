@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[150]:
+# In[162]:
 
 
 from config import api_key
@@ -12,10 +12,10 @@ import numpy as np
 from pprint import pprint
 
 
-# In[151]:
+# In[1]:
 
 
-cities = ["Anaheim", "Santa Ana", "Irvine", "Cypress", "Garden Grove", "Orange", "Fullerton", "Costa Mesa", "Tustin", "Westminster"]
+cities = ["Anaheim,CA", "Santa Ana,CA", "Irvine,CA", "Huntington Beach,,CA", "Garden Grove,CA", "Orange,CA", "Fullerton,CA", "Costa Mesa,CA", "Mission Viejo,CA", "Westminster,CA"]
 url = "https://api.yelp.com/v3/businesses/search"
 headers = {'Authorization': 'Bearer %s' %api_key}
 business_id = []
@@ -27,7 +27,7 @@ for c in cities: #since the search limit is 50, we set the radius about 3 miles
         
 
 
-# In[152]:
+# In[164]:
 
 
 yelp_api = YelpAPI(api_key)
@@ -36,7 +36,7 @@ for b in business_id:
     responses.append(yelp_api.business_query(id = b))   
 
 
-# In[153]:
+# In[165]:
 
 
 dates_time = []
@@ -47,6 +47,7 @@ for r in responses:
         ratings.append(r["rating"])
     except KeyError: #some stores didn't list out operation hours
         continue
+pprint(dates_time)
 
 
 # In[154]:

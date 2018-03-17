@@ -13,11 +13,11 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 
 
-# In[ ]:
+# In[48]:
 
 
-cities = ["Anaheim,CA", "Santa Ana,CA", "Irvine,CA", "Tustin,CA", "Garden Grove,CA", 
-          "Orange,CA", "Fullerton,CA", "Costa Mesa,CA", "Cypress,CA", "Westminster,CA"]
+cities = ["Anaheim,CA", "Santa Ana,CA", "Irvine,CA", "Huntington Beach,CA", "Garden Grove,CA", 
+          "Orange,CA", "Fullerton,CA", "Costa Mesa,CA", "Mission Viejo,CA", "Westminster,CA"]
 types = ["Chinese", "Mexican", "French", "Japanese", "Mediterranean","American", "Italian", 
          "Korean", "Thai", "Indian"]
 url = "https://api.yelp.com/v3/businesses/search"
@@ -53,26 +53,26 @@ for city in cities:
     types_summary[city]=restaurant_types
 
 
-# In[ ]:
+# In[49]:
 
 
 print(types_summary)
 
 
-# In[ ]:
+# In[50]:
 
 
 types_summary_df = pd.DataFrame.from_dict(types_summary)
 types_summary_df
 
 
-# In[ ]:
+# In[51]:
 
 
 print(ratings_summary)
 
 
-# In[ ]:
+# In[52]:
 
 
 ratings_summary_df = pd.DataFrame.from_dict(ratings_summary)
